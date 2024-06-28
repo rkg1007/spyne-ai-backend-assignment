@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import bcrypt from 'bcryptjs';
+import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class HashingProvider {
   private readonly saltRounds: number;
 
   constructor(private readonly configService: ConfigService) {
-    this.saltRounds = this.configService.get<number>('SALT_ROUNDS');
+    this.saltRounds = +this.configService.get<number>('SALT_ROUNDS');
   }
 
   async hash(data: string) {

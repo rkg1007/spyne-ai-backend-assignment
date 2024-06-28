@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { AuthRepository } from './auth.repository';
 import { HashingProvider } from 'src/common/providers/hashing.provider';
 
@@ -14,10 +14,12 @@ export class AuthService {
 
     const existingUser = await this.authRepository.getUser(email, phone);
     if (existingUser) {
-      throw new Error('User already exists with given email or phone number');
+      throw new BadRequestException(
+        'User already exists with given email or phone number',
+      );
     }
 
-    const hashedPassword = this.hashingProvider.hash(password);
+    const hashedPassword = await this.hashingProvider.hash(password);
     registerUserDto.password = hashedPassword;
 
     const userId = await this.authRepository.register(registerUserDto);
