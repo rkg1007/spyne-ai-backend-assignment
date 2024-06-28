@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { ResultSetHeader } from 'mysql2';
 import { DatabaseProvider } from 'src/common/providers/database.provider';
 
 @Injectable()
@@ -15,5 +16,15 @@ export class UserRepository {
     }
 
     return this.databaseProvider.query(query, params);
+  }
+
+  async follow(followerId: string, followeeId: string) {
+    const query = `SELECT * FROM followers WHERE follower_id = ? AND followee_id = ?`;
+    const params = [followerId, followeeId];
+    const results = (await this.databaseProvider.query(
+      query,
+      params,
+    )) as ResultSetHeader;
+    return results.insertId;
   }
 }

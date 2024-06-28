@@ -8,4 +8,12 @@ export class UserService {
   async findAll(search: string = '') {
     return this.userRepository.findAll(search);
   }
+
+  async follow(followerId: string, followeeId: string) {
+    const followingId = await this.userRepository.follow(
+      followerId,
+      followeeId,
+    );
+    return { followingId };
+  }
 }
