@@ -3,7 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtProvider } from './providers/jwt.provider';
 import { HashingProvider } from './providers/hashing.provider';
-import { createPool } from 'mysql2';
+import { createPool } from 'mysql2/promise';
 import { DatabaseProvider } from './providers/database.provider';
 
 @Global()
